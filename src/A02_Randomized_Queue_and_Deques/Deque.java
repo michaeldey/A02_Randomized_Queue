@@ -1,30 +1,71 @@
-package A02_Randomized_Queue_and_Deques;
+package assignment02;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.LinkedList;
 
-public class Deque<Item> implements Iterable<Item> {
 
-	public static void main(String[] args) {
-		//Each of these two data type must include its 
-		//own main() that thoroughly tests the associated operations.
-
+public class Deque<Item> implements Iterable<Item>
+{
+	
+	private int sizeN;
+	private LinkedList<Item> linkedList;
+	
+	// construct an empty deque
+	public Deque()
+	{		
+		linkedList = new LinkedList<Item>();			
+	}
+	
+	// is the deque empty?
+	public boolean isEmpty()
+	{
+		return linkedList.isEmpty();
+	}
+	
+	// return the number of items on the deque
+	public int size()
+	{
+		return linkedList.size();
+	}
+	
+	// insert the item at the front
+	public void addFirst(Item item)
+	{
+		linkedList.addFirst(item);
+	}
+	
+	// insert the item at the end
+	public void addLast(Item item)
+	{
+		linkedList.addLast(item);
+	}
+	
+	// delete and return the item at the front
+	public Item removeFirst()
+	{		
+		return linkedList.pollFirst();
+	}
+	
+	// delete and return the item at the end
+	public Item removeLast()   
+	{
+		return linkedList.pollLast();
+	}
+	
+	// return an iterator over items in order from front to end
+	public Iterator<Item> iterator()  
+	{
+		return linkedList.iterator();
+	}
+	
+	// unit testing
+	public static void main(String[] args) 
+	{
+			
 	}
 
-
-//	   public Deque()                           // construct an empty deque
-//	   public boolean isEmpty()                 // is the deque empty?
-//	   public int size()                        // return the number of items on the deque
-//	   public void addFirst(Item item)          // insert the item at the front
-//	   public void addLast(Item item)           // insert the item at the end
-//	   public Item removeFirst()                // delete and return the item at the front
-//	   public Item removeLast()                 // delete and return the item at the end
-//	   public Iterator<Item> iterator()         // return an iterator over items in order from front to end
-//	   public static void main(String[] args)   // unit testing
 	
 	
-	@Override
-	public Iterator<Item> iterator() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	}
+
+}
