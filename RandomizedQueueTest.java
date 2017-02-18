@@ -64,19 +64,21 @@ public class RandomizedQueueTest {
 		RandomizedQueue n = new RandomizedQueue();
 		boolean test = false;
 		
-		String Test1 = "1";
-		String Test2 = "2";
-		String Test3 = "3";
+		String Test1 = "A";
+		String Test2 = "B";
+		String Test3 = "C";
 		
 		n.enqueue(Test1);
 		n.enqueue(Test2);
 		n.enqueue(Test3);
+
 		Object f = n.dequeue(); 	//f should be one of the three items
-		
+
 		if (f.equals(Test1) || f.equals(Test2) || f.equals(Test3))test = true;		
 		assertTrue(test);
 		
 		assertEquals(2, n.size()); //the size of the list should have decremented by one and is now 2
+
 	}
 	
 	@Test

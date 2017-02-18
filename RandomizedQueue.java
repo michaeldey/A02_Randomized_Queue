@@ -1,7 +1,7 @@
 package A02_Randomized_Queue_and_Deques;
 
 import java.util.Iterator;
-import java.util.NoSuchElementException;
+
 
 import edu.princeton.cs.algs4.StdRandom;
 
@@ -32,32 +32,41 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	 * @param item the item to add
 	 */
 	public void enqueue(Item item){
+		if (item == null){throw new java.lang.NullPointerException("enqueue() must be given an object.");}
+		
 		Node tempNode = new Node();
 		tempNode.item = item;
 		
 		//if the list is empty, make this item the first item
-		if (n==0){
+		if (isEmpty()){
 			first = tempNode;
 		}
 		//if the list is not empty add this item randomly to the list
 		else{
 			int R = getRandomNumber(n); //get a random number between 0 and (size of list)
-			
+
 			//iterate through the list until you get to the Random null
 			Node pointer = first;//set the pointer to the beginning
 			int i = 0;//temporary counter
 			
-			 //go to point R in the list
-			while (i<R){
-				pointer = pointer.next;
-				i++;
-			}
-			if (!hasNext(pointer)){
-				pointer.next = tempNode; //pointer has no next, so tempNode becomes next
+			//if R == 0, replace item with first position
+			if (R == 0){
+				tempNode.next=first;
+				first = tempNode;
 			}
 			else{
-				tempNode.next=pointer.next;	//make tempNode's next the same as pointer's
-				pointer.next=tempNode;		//make pointer's next tempNode
+				//go to point R in the list
+				while (i<R){
+					pointer = pointer.next;
+					i++;
+				}
+				if (!hasNext(pointer)){
+					pointer.next = tempNode; //pointer has no next, so tempNode becomes next (and last item in list)
+				}
+				else{
+					tempNode.next=pointer.next;	//make tempNode's next the same as pointer's
+					pointer.next=tempNode;		//make pointer's next tempNode
+				}
 			}
 		}
 		n++; //increment the count
@@ -71,20 +80,29 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	 * it then saves it in a temporary node and adjusts the previous items "next"
 	 * it then decrements the count
 	 */
-	public Item dequeue(){
-		int R = getRandomNumber(n-1); //get a random number between 0 and (one less than list size)
-		Node pointer = first; //set pointer to the beginning
-		Node previous=pointer; //this node will ultimately point to the parent node of pointer
-		int i = 0;//temporary counter
+	public Item dequeue(){		
+		if (isEmpty()){
+			throw new java.util.NoSuchElementException("List is already empty.");
+		}
 		
-		 //go to point R in the list
+		Node pointer = first; //set pointer to the beginning		
+		Node previous=pointer; //this node will ultimately point to the parent node of pointer
+		int R = getRandomNumber(n)+1; //get a random number between 1 and list size
+
+		
+		int i = 0;//temporary counter		
+		//go to point R in the list
+		
+
 		while (i<R){
 			if (hasNext(pointer)){		//save against out of bounds, this should never be false
 				previous=pointer;		//previous references same object as pointer
 				pointer = pointer.next; //pointer becomes it's .next leaving previous as parent of pointer
-				i++;
 			}
+			i++;
 		}
+		
+		
 		//at this point we will be returning pointer.item
 		
 		if (hasNext(pointer)){
@@ -100,17 +118,20 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	
 	// return (but do not delete) a random item
 	public Item sample(){
-		int R = getRandomNumber(n-1); 	//get a random number between 0 and list size
+		int R = getRandomNumber(n); 	//get a random number between 0 and list size
 		Node pointer = first; 			//set pointer to the beginning
 		int i = 0;						//temporary counter
 		
-		 //go to point R in the list
-		while (i<R){
-			if (hasNext(pointer)){			//save against out of bounds
-				pointer = pointer.next; 	//pointer becomes it's .next
+		//go to point R in the list
+		//if R == 0, pointer is first (which it already is)
+		if (R != 0){
+			while (i<R){
+				if (hasNext(pointer)){			//save against out of bounds
+					pointer = pointer.next; 	//pointer becomes it's .next					
+				}
 				i++;
 			}
-		}		
+		}
 		return pointer.item;			//return the item pointer is referencing
 	}
     
@@ -151,10 +172,10 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	private class ListIterator implements Iterator<Item>{
 		private Node current = first;
 		public boolean hasNext(){return current!=null;};
-		public void remove(){ throw new UnsupportedOperationException();}
+		public void remove(){ throw new java.lang.UnsupportedOperationException();}
 		
 		public Item next(){
-			if(!hasNext()) throw new NoSuchElementException();
+			if(!hasNext()) throw new java.util.NoSuchElementException();
 			Item item = current.item;
 			current = current.next;
 			return item; 
@@ -199,7 +220,12 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	
 	public static void main(String[] args) {
 		RandomizedQueue RQ = new RandomizedQueue();		
-		System.out.println("isEmpty test: " + RQ.isEmpty());
+//		System.out.println("isEmpty test: " + RQ.isEmpty());
+		
+		//test exceptions
+//		RQ.dequeue();
+//		String emptyString = null;
+//		RQ.enqueue(emptyString);
 		
 		RQ.enqueue("0");
 		RQ.enqueue("1");
@@ -213,12 +239,12 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 		RQ.enqueue("9");
 		
 		//test enqueue method
-		System.out.print("enqueue test: ");
-		RandomizedQueue n = new RandomizedQueue();
-		String TestString = "Test";		
-		n.enqueue(TestString);		
-		Object newString = n.first.item;
-		if (TestString.equals(newString))System.out.println("enque method passes");
+//		System.out.print("enqueue test: ");
+//		RandomizedQueue n = new RandomizedQueue();
+//		String TestString = "Test";		
+//		n.enqueue(TestString);		
+//		Object newString = n.first.item;
+//		if (TestString.equals(newString))System.out.println("enque method passes");
 		
 		//test dequeue method
 		System.out.print("dequeue test: ");
