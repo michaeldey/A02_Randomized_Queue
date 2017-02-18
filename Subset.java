@@ -1,17 +1,27 @@
-package A02_Randomized_Queue_and_Deques;
+package assignment02;
 
-import edu.princeton.cs.algs4.StdIn;
-
-/*Write a client program Subset.java that takes a command-line integer k; 
- * reads in a sequence of strings from standard input using StdIn.readString(); 
- * and prints out exactly k of them, uniformly at random. Each item from the 
- * sequence can be printed out at most once.
- */
+import edu.princeton.cs.introcs.StdIn;
+import edu.princeton.cs.introcs.StdOut;
 
 public class Subset {
 
-	public static void main(String[] args) {
-		//You may assume that 0 ≤ k ≤ N, where N is the number of string on standard input.
+	public static void main(String[] args) 
+	{
+		RandomizedQueue<String> randQ = new RandomizedQueue<>();
+		
+		int k =  Integer.parseInt(args[0]);
+		
+		StdOut.println("Enter sequence of strings :");
+		while (!StdIn.isEmpty())
+		{
+			randQ.enqueue(StdIn.readString());		
+		}
+		
+		for (int i = 0; i < k; i++)
+		{
+			StdOut.println(randQ.dequeue() );			
+		}
+		
 
 	}
 
