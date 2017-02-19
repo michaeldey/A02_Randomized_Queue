@@ -70,12 +70,11 @@ public class Deque<Item> implements Iterable<Item>
      */
 	public void addFirst(Item item)
 	{
-		if (item == null) throw new NullPointerException();
-				
-		Node oldFirst = firstNode;
+		if (item == null) throw new NullPointerException();		
 		
 		firstNode = new Node();
 		firstNode.item = item;
+		Node oldFirst = firstNode;
 		
 		//setup the prev and next pointer to next node
 		if (isEmpty())
@@ -100,10 +99,11 @@ public class Deque<Item> implements Iterable<Item>
 	{
 		if (item == null) throw new NullPointerException();
 
-		Node oldLast = lastNode;
+		
 		lastNode = new Node();
 		lastNode.item = item;
 		lastNode.next = null;
+		Node oldLast = lastNode;
 		
 		//setup the prev and next pointer to next node
 		if (isEmpty())
@@ -213,17 +213,52 @@ public class Deque<Item> implements Iterable<Item>
 	// unit testing
 	public static void main(String[] args) 
 	{
-		LinkedStack<String> stack = new LinkedStack<String>();
-		while (!StdIn.isEmpty()) {
-            String item = StdIn.readString();
-            if (!item.equals("-"))
-                stack.push(item);
-            else if (!stack.isEmpty())
-                StdOut.print(stack.pop() + " ");
-        }
-        StdOut.println("(" + stack.size() + " left on stack)");
+//		LinkedStack<String> stack = new LinkedStack<String>();
+//		while (!StdIn.isEmpty()) {
+//            String item = StdIn.readString();
+//            if (!item.equals("-"))
+//                stack.push(item);
+//            else if (!stack.isEmpty())
+//                StdOut.print(stack.pop() + " ");
+//        }
+//        StdOut.println("(" + stack.size() + " left on stack)");
 		 
-		 
+		//Mike code
+		Deque DQ = new Deque();
+		String[] m = new String[10];
+		for (int i = 0; i<10; i++){
+			m[i] = String.valueOf(i);
+		}
+
+		StdOut.println("Is empty: " + DQ.isEmpty()); 	//test isEmpty
+		StdOut.println("DQ size = " + DQ.size());		//test size()
+		DQ.addFirst(m[0]);							//test addFirst()
+		StdOut.println("Is empty: " + DQ.isEmpty()); 	//test isEmpty
+		StdOut.println("DQ size = " + DQ.size());		//test size()		
+
+		//add the rest
+		StdOut.println("\nTesting addLast:");
+		for (String j : m){
+			DQ.addLast(j); 							//test addLast()
+//			StdOut.println("adding: " + j);
+		}
+
+		StdOut.println("DQ size = " + DQ.size());		//test size()
+		
+		DQ.removeFirst();							//test removeFirst()
+		StdOut.println("Removing first - DQ size = " + DQ.size());		//test size()
+		
+		DQ.removeLast();							//test removeLast()
+		StdOut.println("Removing last - DQ size = " + DQ.size());		//test size()
+		
+		StdOut.println("\nIterator test:");
+		Iterator myIT = DQ.iterator();
+		for (int i = 0; i < DQ.size(); i++){
+			StdOut.println(myIT.next().toString());			//test iterator
+		}
+		
+		StdOut.println("\ntoString test");
+		StdOut.println(DQ.toString());
 	}
 
 
